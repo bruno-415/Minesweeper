@@ -1,6 +1,6 @@
 import de.bezier.guido.*;
-private static final int NUM_ROWS = 5;
-private static final int NUM_COLS = 5;
+private static final int NUM_ROWS = 10;
+private static final int NUM_COLS = 10;
 private static final int NUM_MINES = 5; //real # of mines could be lower, this is the number of times game attempts to create a mine
 private MSButton[][] buttons; //2d array of minesweeper buttons
 private ArrayList <MSButton> mines = new ArrayList <MSButton>(); //ArrayList of just the minesweeper buttons that are mined
@@ -117,7 +117,7 @@ public class MSButton
         else
           for(int i = myRow-1; i <= myRow+1; i++)
             for(int j = myCol-1; j <= myCol+1; j++)
-              if(isValid(i,j) && !clicked)
+              if(isValid(i,j) && !buttons[i][j].isClicked())
                 buttons[i][j].mousePressed();
     }
     public void draw () 
