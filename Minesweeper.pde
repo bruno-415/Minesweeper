@@ -9,6 +9,7 @@ void setup ()
 {
     size(400, 400);
     textAlign(CENTER,CENTER);
+    textSize(200/NUM_ROWS);
     
     // make the manager
     Interactive.make( this );
@@ -39,16 +40,29 @@ public void draw ()
 }
 public boolean isWon()
 {
-    //your code here
+    int countOfClicked = 0;
+    for(int i = 0; i < NUM_ROWS; i++)
+      for(int j = 0; j < NUM_COLS; j++)
+        if(buttons[i][j].isClicked())
+          countOfClicked++;
+    if(countOfClicked == NUM_ROWS*NUM_COLS)
+      return true;
     return false;
 }
 public void displayLosingMessage()
 {
-    //your code here
+    buttons[0][0].setLabel("L");
+    buttons[0][1].setLabel("O");
+    buttons[0][2].setLabel("S");
+    buttons[0][3].setLabel("E");
+    buttons[0][4].setLabel("!");
+
 }
 public void displayWinningMessage()
 {
-    //your code here
+    buttons[0][0].setLabel("W");
+    buttons[0][1].setLabel("I");
+    buttons[0][2].setLabel("N");
 }
 public boolean isValid(int r, int c)
 {
@@ -91,7 +105,20 @@ public class MSButton
     public void mousePressed () 
     {
         clicked = true;
-        //your code here
+        if(mouseButton == RIGHT){
+          flagged = !flagged;
+          if(flagged == false)
+            clicked = false;
+        }
+        else if(mines.contains(this))
+          displayLosingMessage();
+        else if(countMines(myRow, myCol) > 0)
+          myLabel = Integer.toString(countMines(myRow, myCol));
+        else
+          for(int i = myRow-1; i <= myRow+1; i++)
+            for(int j = myCol-1; j <= myCol+1; j++)
+              if(isValid(i,j) && !clicked)
+                buttons[i][j].mousePressed();
     }
     public void draw () 
     {    
@@ -119,5 +146,9 @@ public class MSButton
     public boolean isFlagged()
     {
         return flagged;
+    }
+    public boolean isClicked()
+    {
+      return clicked;
     }
 }
