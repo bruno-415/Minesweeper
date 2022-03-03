@@ -1,13 +1,14 @@
 import de.bezier.guido.*;
-private static final int NUM_ROWS = 10;
-private static final int NUM_COLS = 10;
+private static final int NUM_ROWS = 20;
+private static final int NUM_COLS = 20;
 private static final int NUM_MINES = 5; //real # of mines could be lower, this is the number of times game attempts to create a mine
 private MSButton[][] buttons; //2d array of minesweeper buttons
 private ArrayList <MSButton> mines = new ArrayList <MSButton>(); //ArrayList of just the minesweeper buttons that are mined
+private boolean gameOver = false;
 
 void setup ()
 {
-    size(400, 400);
+    size(600, 600);
     textAlign(CENTER,CENTER);
     textSize(200/NUM_ROWS);
     
@@ -35,7 +36,7 @@ public void setMines()
 public void draw ()
 {
     background( 0 );
-    if(isWon() == true)
+    if(isWon())
         displayWinningMessage();
 }
 public boolean isWon()
@@ -51,18 +52,21 @@ public boolean isWon()
 }
 public void displayLosingMessage()
 {
+    fill(255,0,0); //not working
     buttons[0][0].setLabel("L");
     buttons[0][1].setLabel("O");
     buttons[0][2].setLabel("S");
     buttons[0][3].setLabel("E");
     buttons[0][4].setLabel("!");
-
+    gameOver = true;
 }
 public void displayWinningMessage()
 {
+    fill(0,255,0); //not working
     buttons[0][0].setLabel("W");
     buttons[0][1].setLabel("I");
     buttons[0][2].setLabel("N");
+    gameOver = true;
 }
 public boolean isValid(int r, int c)
 {
@@ -90,8 +94,8 @@ public class MSButton
     
     public MSButton ( int row, int col )
     {
-        width = 400/NUM_COLS;
-        height = 400/NUM_ROWS;
+        width = 600/NUM_COLS;
+        height = 600/NUM_ROWS;
         myRow = row;
         myCol = col; 
         x = myCol*width;
@@ -104,8 +108,9 @@ public class MSButton
     // called by manager
     public void mousePressed () 
     {
+      if(!gameOver){
         clicked = true;
-        if(mouseButton == RIGHT){
+        if(mouseButton == RIGHT){ //if statement should also make sure the tile is not already known to not be a mine
           flagged = !flagged;
           if(flagged == false)
             clicked = false;
@@ -119,6 +124,7 @@ public class MSButton
             for(int j = myCol-1; j <= myCol+1; j++)
               if(isValid(i,j) && !buttons[i][j].isClicked())
                 buttons[i][j].mousePressed();
+      }
     }
     public void draw () 
     {    
