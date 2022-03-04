@@ -1,7 +1,7 @@
 import de.bezier.guido.*;
 private static final int NUM_ROWS = 20;
 private static final int NUM_COLS = 20;
-private static final int NUM_MINES = 5; //real # of mines could be lower, this is the number of times game attempts to create a mine
+private static final int NUM_MINES = 50; //real # of mines could be lower, this is the number of times game attempts to create a mine
 private MSButton[][] buttons; //2d array of minesweeper buttons
 private ArrayList <MSButton> mines = new ArrayList <MSButton>(); //ArrayList of just the minesweeper buttons that are mined
 private boolean gameOver = false;
@@ -110,7 +110,7 @@ public class MSButton
     {
       if(!gameOver){
         clicked = true;
-        if(mouseButton == RIGHT){ //if statement should also make sure the tile is not already known to not be a mine
+        if(mouseButton == RIGHT){ //if statement should also make sure the tile is not already known to not be a mine!!!
           flagged = !flagged;
           if(flagged == false)
             clicked = false;
@@ -126,16 +126,18 @@ public class MSButton
                 buttons[i][j].mousePressed();
       }
     }
+    
     public void draw () 
     {    
+        stroke(181, 143, 72);
         if (flagged)
-            fill(0);
+            fill(217, 146, 48);
         else if( clicked && mines.contains(this) ) 
             fill(255,0,0);
         else if(clicked)
-            fill( 200 );
+            fill(230, 216, 179);
         else 
-            fill( 100 );
+            fill(235, 210, 141);
 
         rect(x, y, width, height);
         fill(0);
