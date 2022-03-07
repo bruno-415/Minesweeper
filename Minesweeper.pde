@@ -120,7 +120,7 @@ public class MSButton
           displayLosingMessage();
         }
         else if(countMines(myRow, myCol) > 0 && !flagged){
-          myLabel = Integer.toString(countMines(myRow, myCol));
+          myLabel = "" + countMines(myRow, myCol);
           revealed = true;
         }
         else if(!flagged) {
@@ -136,9 +136,9 @@ public class MSButton
     public void draw () 
     {    
         stroke(181, 143, 72);
-        if (flagged)
+        if(flagged)
             fill(217, 146, 48);
-        else if( clicked && mines.contains(this) ) 
+        else if(clicked && mines.contains(this)) 
             fill(255,0,0);
         else if(clicked)
             fill(230, 216, 179);
