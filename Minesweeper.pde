@@ -89,7 +89,7 @@ public class MSButton
 {
     private int myRow, myCol;
     private float x,y, width, height;
-    private boolean clicked, flagged;
+    private boolean clicked, flagged, revealed;
     private String myLabel;
     
     public MSButton ( int row, int col )
@@ -101,7 +101,7 @@ public class MSButton
         x = myCol*width;
         y = myRow*height;
         myLabel = "";
-        flagged = clicked = false;
+        flagged = clicked = revealed = false;
         Interactive.add( this ); // register it with the manager
     }
 
@@ -110,20 +110,26 @@ public class MSButton
     {
       if(!gameOver){
         clicked = true;
-        if(mouseButton == RIGHT){ //if statement should also make sure the tile is not already known to not be a mine!!!
+        if(mouseButton == RIGHT && !revealed){ //if statement should also make sure the tile is not already known to not be a mine!!!
           flagged = !flagged;
           if(flagged == false)
             clicked = false;
         }
-        else if(mines.contains(this))
+        else if(mines.contains(this) && !flagged){
+          flagged = false;
           displayLosingMessage();
-        else if(countMines(myRow, myCol) > 0)
+        }
+        else if(countMines(myRow, myCol) > 0 && !flagged){
           myLabel = Integer.toString(countMines(myRow, myCol));
-        else
+          revealed = true;
+        }
+        else if(!flagged) {
+          revealed = true;
           for(int i = myRow-1; i <= myRow+1; i++)
             for(int j = myCol-1; j <= myCol+1; j++)
               if(isValid(i,j) && !buttons[i][j].isClicked())
                 buttons[i][j].mousePressed();
+        }
       }
     }
     
